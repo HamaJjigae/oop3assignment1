@@ -1,0 +1,32 @@
+Steps of Algorithm:
+
+Intro: For my sorting algorithm of choice, I chose to work with HeapSort; more specifically, min-heapsort. I really wanted to try using Radix, but with our assignment requiring this write-up and trying to figure out how to make it descend I eventually settled on HeapSort instead. I will say that fully understanding the concepts behind HeapSort such as balancing binary trees is a bit unfamiliar to me, but I will do my best to conceptualize how I look at HeapSort in this program.
+
+Step 1:
+Initially we import our Comparator from the interface. This is determined by the commandline input and helps us decide what to compare between values (assuming that height isn't what is being compared).
+
+Step 2:
+We find the length of our array and store it as 'n'. This is common practice for length values and we will be using this value in a lot of the code to follow.
+
+Step 3:
+We begin "heaping" or "heapifying" our array. I will attempt to explain this to the best of my ability.
+
+**Heapifying**
+So a 'heap' is a binary-tree like system that operates on 'leafs' and 'non-leafs'. These leafs and non-leafs are denoted by finding the value of length / 2, which serves as the demarcation for the separation between the two (this means that length / 2 is the index of the first non-leaf). We see that in our code in the for loop that starts at length / 2 - 1. That loop also goes towards the 0 index (decrementing) which allows it to deal with everything marked as 'non-leafs'. The reason we want to work with non-leafs is because in a binarytree system or a heap, each 'non-leaf' is connected to two (binary) children. We are using this association between the parent node and the children to sort our array. Now, since it is a min-heap, we want our parent node to be the smallest value between the parent-children connections. we initially store this as 'i' which is our input index. We then check the values of the parent against the children to ensure that our parent is the smallest. This will effectively sort the heap with the smallest value at index 0 (the beginning), but the final output will swap the order of the list, properly putting everything into descending order.
+
+Step 4:
+So we start heapifying our array, checking 'left' and 'right' at 2 * i + 1 and 2 * i + 2 respectively which should constitute the end of our array. This is based on how a binary tree is represented within the array itself.
+
+Step 5:
+We check that 'left' and 'right' are within bounds, and then compare them based on the input metric given previously, either Volume, Area or Height. If we find out that 'smallest' was in fact, not the smallest (between the parent and the children), we swap the index placements of i and the new value of smallest and then re-heap. This will continue iterating until there's no swapping necessary.
+
+Step 6:
+After we have heapified all of our 'non-leafs' (which technically means our entire array), the heap is built into a min-heap and then sorted in descending order, which is effectively placing all the min values (our parent nodes) at the end of the array.
+
+Counting Analysis:
+
+So for this counting analysis there is some Math that is slightly above my paygrade but I will do my best to analyze it.
+HeapSort working as a binary tree operates on length / 2 values which are the non-leafs. Then it operates on n / 4, and n / 8, and so on. This is because each time it heaps, the binary tree is more defined which allows for comparative associations to be made. So this means on the initial pass, it should operate within a max time of O(n) which is operating from n /2 to 0, and it builds the heap; this is because the bottom half of the "tree" aka the leaf-nodes don't really help us speed it up. Then the list is sorted into descending order, which is a pass from n-1 to 1 (which is n elements) and then re-heaping which is log(n), since it does this for every element, the total is nlog(n). This leads us to a total of n + nlogn, and we eliminate all constants which would be 2n, which leaves us with nlogn as the time complexity.
+
+Special note:
+It should be noted that since HeapSort sorts the array in place it has a really incredible space complexity of O(1)
